@@ -10,10 +10,21 @@
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: #f8f9fa;
         }
-        .banner, .shop {
+        /* バナー画像のスタイル */
+        .banner {
             width: 100%;
             height: auto;
+            max-height: 200px; /* 最大高さを設定 */
+            object-fit: cover; /* 画像の切り抜きを適切に */
         }
+        /* ショップ画像のスタイル */
+        .shop {
+            width: 100%;
+            height: auto;
+            max-height: 150px; /* 最大高さを設定 */
+            object-fit: cover; /* 画像の切り抜きを適切に */
+        }
+        /* 質問カードと結果カードのスタイル */
         .question-card, .result-card {
             margin: 20px auto;
             max-width: 600px;
@@ -32,11 +43,14 @@
         .result {
             text-align: center;
         }
+        /* 商品画像のスタイル */
         .result img {
             max-width: 100%;
             height: auto;
             border-radius: 10px;
             margin-top: 15px;
+            max-height: 300px; /* 最大高さを設定 */
+            object-fit: cover; /* 画像の切り抜きを適切に */
         }
         .footer {
             margin-top: 40px;
