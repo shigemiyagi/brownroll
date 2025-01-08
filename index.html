@@ -239,7 +239,7 @@
                 console.log('APIレスポンス:', result); // デバッグ用
 
                 // 結果を表示
-                document.getElementById('recommendation').innerText = result.message;
+                document.getElementById('recommendation').innerHTML = result.message.replace(/\n/g, '<br>');
                 document.getElementById('menu-image').src = result.image_url;
                 document.getElementById('description').innerText = result.description;
                 document.getElementById('price').innerText = result.price;
