@@ -158,7 +158,6 @@
             };
         
             try {
-                // Lambda関数にリクエストを送信
                 const response = await fetch('https://5pgvq7e5wj.execute-api.ap-northeast-1.amazonaws.com/prod/recommend', {
                     method: 'POST',
                     headers: {
@@ -169,12 +168,13 @@
         
                 // レスポンスをJSON形式で取得
                 const responseData = await response.json();
-                const data = JSON.parse(responseData.body); // body部分をパース
         
-                // レスポンスデータを表示
+                // bodyをパースする
+                const data = JSON.parse(responseData.body);
+        
+                // データをフロントエンドに反映
                 document.getElementById('menuImage').src = data.image_url;
-                document.getElementById('menuName').innerText = `${data.name_jp} (${data.name_en})`;
-                document.getElementById('menuDescription').innerText = data.description;
+                document.getElementById('menuName').innerText = data.name_jp;
                 document.getElementById('menuPrice').innerText = `価格: ¥${data.price}`;
                 document.getElementById('result').style.display = 'block';
             } catch (error) {
