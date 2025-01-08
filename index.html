@@ -40,6 +40,7 @@
             margin-bottom: 20px;
             color: #343a40;
             font-size: 2rem; /* デフォルトのフォントサイズを大きく設定 */
+            text-align: center; /* 中央揃え */
         }
         .question {
             margin-bottom: 15px;
@@ -80,6 +81,11 @@
             .form-check-label {
                 font-size: 1.1rem; /* ラジオボタンのラベルのフォントサイズを大きく */
             }
+        }
+        /* ローディングスピナーのスタイル */
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
         }
     </style>
 </head>
@@ -164,10 +170,19 @@
             <!-- 結果表示 -->
             <div class="col-12 col-md-10 col-lg-8">
                 <div class="card result-card" id="result" style="display:none;">
-                    <h2 id="recommendation"></h2>
-                    <img id="menu-image" src="" alt="おすすめメニュー" loading="lazy" class="img-fluid">
-                    <p id="description" class="mt-3"></p>
-                    <p>価格: ¥<span id="price"></span></p>
+                    <!-- ローディングスピナー -->
+                    <div id="loading" class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">読み込み中...</span>
+                        </div>
+                    </div>
+                    <!-- 結果コンテンツ -->
+                    <div id="result-content" style="display: none;">
+                        <h2 id="recommendation" class="text-center"></h2>
+                        <img id="menu-image" src="" alt="おすすめメニュー" loading="lazy" class="img-fluid">
+                        <p id="description" class="mt-3"></p>
+                        <p>価格: ¥<span id="price"></span></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -183,6 +198,19 @@
     <script>
         document.getElementById('quiz-form').addEventListener('submit', async function(event) {
             event.preventDefault();
+
+            // フォームと結果カードの要素を取得
+            const form = document.getElementById('quiz-form');
+            const resultCard = document.getElementById('result');
+            const loading = document.getElementById('loading');
+            const resultContent = document.getElementById('result-content');
+
+            // フォームを非表示にし、結果カードを表示
+            form.style.display = 'none';
+            resultCard.style.display = 'block';
+            // ローディングスピナーを表示し、結果コンテンツを非表示にする
+            loading.style.display = 'flex';
+            resultContent.style.display = 'none';
 
             // 質問の回答を取得
             const formData = new FormData(event.target);
@@ -212,10 +240,18 @@
                 document.getElementById('menu-image').src = result.image_url;
                 document.getElementById('description').innerText = result.description;
                 document.getElementById('price').innerText = result.price;
-                document.getElementById('result').style.display = 'block';
+
+                // ローディングスピナーを非表示にし、結果コンテンツを表示する
+                loading.style.display = 'none';
+                resultContent.style.display = 'block';
             } catch (error) {
                 alert('エラーが発生しました。もう一度お試しください。');
                 console.error(error);
+                // ローディングスピナーを非表示にし、結果コンテンツを表示しない
+                loading.style.display = 'none';
+                resultContent.style.display = 'none';
+                // フォームを再表示する
+                form.style.display = 'block';
             }
         });
     </script>
