@@ -177,7 +177,7 @@
                         </div>
                     </div>
                     <!-- 結果コンテンツ -->
-                    <div id="result-content" style="display: none;">
+                    <div id="result-content" class="d-none">
                         <h2 id="recommendation" class="text-center"></h2>
                         <img id="menu-image" src="" alt="おすすめメニュー" loading="lazy" class="img-fluid">
                         <p id="description" class="mt-3"></p>
@@ -209,8 +209,8 @@
             form.style.display = 'none';
             resultCard.style.display = 'block';
             // ローディングスピナーを表示し、結果コンテンツを非表示にする
-            loading.style.display = 'flex';
-            resultContent.style.display = 'none';
+            loading.classList.remove('d-none');
+            resultContent.classList.add('d-none');
 
             // 質問の回答を取得
             const formData = new FormData(event.target);
@@ -218,6 +218,8 @@
             formData.forEach((value, key) => {
                 data[key] = value;
             });
+
+            console.log('フォームデータ:', data); // デバッグ用
 
             try {
                 // API Gatewayのエンドポイントを指定（/recommend を追加）
@@ -234,6 +236,7 @@
                 }
 
                 const result = await response.json();
+                console.log('APIレスポンス:', result); // デバッグ用
 
                 // 結果を表示
                 document.getElementById('recommendation').innerText = result.message;
@@ -242,14 +245,14 @@
                 document.getElementById('price').innerText = result.price;
 
                 // ローディングスピナーを非表示にし、結果コンテンツを表示する
-                loading.style.display = 'none';
-                resultContent.style.display = 'block';
+                loading.classList.add('d-none');
+                resultContent.classList.remove('d-none');
             } catch (error) {
                 alert('エラーが発生しました。もう一度お試しください。');
-                console.error(error);
+                console.error('エラー:', error);
                 // ローディングスピナーを非表示にし、結果コンテンツを表示しない
-                loading.style.display = 'none';
-                resultContent.style.display = 'none';
+                loading.classList.add('d-none');
+                resultContent.classList.add('d-none');
                 // フォームを再表示する
                 form.style.display = 'block';
             }
