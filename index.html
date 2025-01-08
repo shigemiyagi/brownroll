@@ -167,7 +167,7 @@
                     body: JSON.stringify({ answers: Object.values(answers) })
                 });
         
-                // レスポンスをJSON形式で取得し、さらにbodyをパース
+                // レスポンスをJSON形式で取得
                 const responseData = await response.json();
                 const data = JSON.parse(responseData.body); // body部分をパース
         
@@ -182,7 +182,6 @@
                 alert('診断結果を取得できませんでした。もう一度お試しください。');
             }
         });
-
     </script>
 </body>
 </html>
