@@ -40,17 +40,9 @@
             margin-bottom: 20px;
             color: #343a40;
             font-size: 2rem; /* デフォルトのフォントサイズを大きく設定 */
-            text-align: center;
         }
         .question {
             margin-bottom: 15px;
-        }
-        .form-label {
-            font-size: 1.5rem; /* 質問ラベルのフォントサイズを大きく */
-            font-weight: bold;
-        }
-        .form-check-label {
-            font-size: 1.25rem; /* ラジオボタンのラベルのフォントサイズを大きく */
         }
         .result {
             text-align: center;
@@ -62,12 +54,6 @@
             border-radius: 10px;
             margin-top: 15px;
             /* object-fitを削除してトリミングを防止 */
-        }
-        /* 商品名のスタイル */
-        .product-name {
-            font-size: 2.5rem; /* 大きなフォントサイズ */
-            font-weight: bold; /* 太字 */
-            color: #dc3545; /* お好みの色に変更可能 */
         }
         .footer {
             margin-top: 40px;
@@ -86,16 +72,13 @@
         }
         @media (max-width: 576px) {
             .question-card h2, .result-card h2 {
-                font-size: 1.5rem; /* スマートフォン向けにさらにフォントサイズを調整 */
+                font-size: 1.5rem; /* スマートフォン向けにさらにフォントサイズを大きく */
             }
             .form-label {
-                font-size: 1.75rem; /* スマートフォン向けにフォントサイズをさらに大きく */
+                font-size: 1.25rem; /* 質問ラベルのフォントサイズを大きく */
             }
             .form-check-label {
-                font-size: 1.5rem; /* スマートフォン向けにフォントサイズをさらに大きく */
-            }
-            .product-name {
-                font-size: 2rem; /* スマートフォン向けにフォントサイズを調整 */
+                font-size: 1.1rem; /* ラジオボタンのラベルのフォントサイズを大きく */
             }
         }
     </style>
@@ -181,14 +164,10 @@
             <!-- 結果表示 -->
             <div class="col-12 col-md-10 col-lg-8">
                 <div class="card result-card" id="result" style="display:none;">
-                    <div class="result">
-                        <p id="recommendation_intro">あなたにおすすめのシナモンロールは、</p>
-                        <p id="recommendation_product" class="product-name"></p>
-                        <p id="recommendation">です！</p>
-                        <img id="menu-image" src="" alt="おすすめメニュー" loading="lazy" class="img-fluid">
-                        <p id="description" class="mt-3"></p>
-                        <p>価格: ¥<span id="price"></span></p>
-                    </div>
+                    <h2 id="recommendation"></h2>
+                    <img id="menu-image" src="" alt="おすすめメニュー" loading="lazy" class="img-fluid">
+                    <p id="description" class="mt-3"></p>
+                    <p>価格: ¥<span id="price"></span></p>
                 </div>
             </div>
         </div>
@@ -229,9 +208,7 @@
                 const result = await response.json();
 
                 // 結果を表示
-                document.getElementById('recommendation_intro').innerText = 'あなたにおすすめのシナモンロールは、';
-                document.getElementById('recommendation_product').innerText = result.menu_name_jp; // Lambda関数からのレスポンスに合わせてキーを調整
-                document.getElementById('recommendation_end').innerText = 'です！';
+                document.getElementById('recommendation').innerText = result.message;
                 document.getElementById('menu-image').src = result.image_url;
                 document.getElementById('description').innerText = result.description;
                 document.getElementById('price').innerText = result.price;
