@@ -83,6 +83,11 @@
             margin: 5px 0;
             color: #555;
         }
+        .result img {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.5rem;
@@ -132,6 +137,7 @@
         </form>
         <div class="result" id="result">
             <h2>あなたにおすすめのシナモンロールは...</h2>
+            <img id="menuImage" src="" alt="Recommended Cinnamon Roll">
             <p id="menuName"></p>
             <p id="menuDescription"></p>
             <p id="menuPrice"></p>
@@ -161,13 +167,14 @@
                     body: JSON.stringify({ answers: Object.values(answers) })
                 });
 
-                // レスポンスを取得
-                const data = await response.json(); // JSON形式でレスポンスを取得
+                const data = await response.json();
 
-                // レスポンスのbody部分を直接使用
-                document.getElementById('menuName').innerText = data.body.recommended_menu;
-                document.getElementById('menuDescription').innerText = data.body.description;
-                document.getElementById('menuPrice').innerText = `価格: ¥${data.body.price}`;
+                // レスポンスデータを表示
+                const result = JSON.parse(data.body); // JSONのbodyをパース
+                document.getElementById('menuImage').src = result.image_url;
+                document.getElementById('menuName').innerText = `${result.name_jp} (${result.name_en})`;
+                document.getElementById('menuDescription').innerText = result.description;
+                document.getElementById('menuPrice').innerText = `価格: ¥${result.price}`;
                 document.getElementById('result').style.display = 'block';
             } catch (error) {
                 console.error('Error:', error);
