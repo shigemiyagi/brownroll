@@ -146,7 +146,7 @@
     </div>
 
     <script>
-        document.getElementById('questionnaire').addEventListener('submit', async function(e) {
+        document.getElementById('questionnaire').addEventListener('submit', async function (e) {
             e.preventDefault();
         
             const answers = {
@@ -161,16 +161,13 @@
                 const response = await fetch('https://5pgvq7e5wj.execute-api.ap-northeast-1.amazonaws.com/prod/recommend', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ answers: Object.values(answers) })
+                    body: JSON.stringify({ answers: Object.values(answers) }),
                 });
         
                 // レスポンスをJSON形式で取得
-                const responseData = await response.json();
-        
-                // bodyをパースする
-                const data = JSON.parse(responseData.body);
+                const data = await response.json();
         
                 // データをフロントエンドに反映
                 document.getElementById('menuImage').src = data.image_url;
@@ -182,6 +179,7 @@
                 alert('診断結果を取得できませんでした。もう一度お試しください。');
             }
         });
+
     </script>
 </body>
 </html>
