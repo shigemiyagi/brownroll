@@ -36,6 +36,7 @@
         }
         .question {
             margin-bottom: 20px;
+            text-align: left;
         }
         .question label {
             font-weight: bold;
@@ -136,8 +137,8 @@
             <button type="submit">診断する</button>
         </form>
         <div class="result" id="result">
-            <h2>あなたにおすすめのシナモンロールは...</h2>
-            <img id="menuImage" src="">
+            <h2 id="resultText">あなたにおすすめのシナモンロールは...</h2>
+            <img id="menuImage" src="" alt="おすすめシナモンロール">
             <p id="menuName"></p>
             <p id="menuPrice"></p>
         </div>
@@ -165,12 +166,21 @@
                     body: JSON.stringify({ answers: Object.values(answers) })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const data = await response.json();
 
+                // 'body' フィールドを再度JSONとしてパース
+                const result = JSON.parse(data.body);
+
                 // データをフロントエンドに反映
-                document.getElementById('menuImage').src = data.image_url;
-                document.getElementById('menuName').innerText = data.name_jp;
-                document.getElementById('menuPrice').innerText = `価格: ¥${data.price}`;
+                document.getElementById('resultText').innerText = `あなたにおすすめのシナモンロールは、${result.name_jp}です！`;
+                document.getElementById('menuImage').src = result.image_url;
+                document.getElementById('menuImage').alt = result.name_jp;
+                document.getElementById('menuName').innerText = `商品名: ${result.name_jp}`;
+                document.getElementById('menuPrice').innerText = `価格: ¥${result.price}`;
                 document.getElementById('result').style.display = 'block';
             } catch (error) {
                 console.error('Error:', error);
